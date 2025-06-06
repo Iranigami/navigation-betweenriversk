@@ -1,0 +1,38 @@
+@import "tailwindcss";
+
+@theme{
+  --color-text: #505050;
+  --color-text-second: #A9A9A9;
+  --color-light-green: #71BF45;
+  --color-dark-green: #04341C;
+  --shadow-footer: 0px 2px 20px 0px #4A290940;
+  --font-monty: Montserrat;
+}
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #0000001A;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: Montserrat;
+}
+
+
+
+
+@layer base {
+  @font-face {
+    font-family: Montserrat;
+    src: url(./assets/fonts/Montserrat-VariableFont_wght.ttf);
+  }
+}
