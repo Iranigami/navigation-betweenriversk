@@ -15,12 +15,15 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #0000001A;
+  background-color: #FDF8EF;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  scrollbar-width: 16px;
+  scrollbar-color: #71BF45 #04341C15;
 }
 
 body {
