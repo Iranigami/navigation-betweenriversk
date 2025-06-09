@@ -2,7 +2,7 @@ import searchIcon from "../assets/icons/search.svg"
 import filterIcon from "../assets/icons/filter.svg"
 import arrIcon from "../assets/icons/arrow.svg"
 import activeMapIcon from "../assets/icons/greenMap.svg"
-import mapIcon from "../assets/icons/Map.svg"
+import mapIcon from "../assets/icons/map.svg"
 import glassesIcon from "../assets/icons/glasses.svg"
 import { useState, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom";
