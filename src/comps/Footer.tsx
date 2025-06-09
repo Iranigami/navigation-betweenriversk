@@ -4,8 +4,9 @@ import arrIcon from "../assets/icons/arrow.svg"
 import activeMapIcon from "../assets/icons/greenMap.svg"
 import mapIcon from "../assets/icons/Map.svg"
 import glassesIcon from "../assets/icons/glasses.svg"
-import { useState } from "react"
+import { useState, type ChangeEvent } from "react"
 import { useNavigate } from "react-router-dom";
+import Keyboard from "./Keyboard"
 
 type Props = {
     setBlindMode: (bool: boolean) => void;
@@ -16,28 +17,39 @@ type Props = {
 export default function Footer({setBlindMode, blindMode}: Props){
     const mapVars = ["Междуреченск", "Мегалиты горной шории", "Поднебесные зубья"];
     const [currMap, setCurrMap] = useState(mapVars[0]);
+    const [text, setText] = useState("");
+    const [isKeyboardOpen, setKeyboardOpen] = useState(false);
+    const [isFooterOpen, setFooterOpen] = useState(true);
     const [isMapsSelectionOpen, setMapsSelectionOpen] = useState(false);
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+        setText(event.target.value);
+      };
     const navigate = useNavigate();
     return(
-        <div className="z-1 w-[2000px] fixed bottom-[80px] left-0 right-0 mx-auto">
-            {location.pathname.includes("map") &&
-                <div className="w-full h-[160px] flex gap-[16px]">
-                <div className="w-[1152px] h-full rounded-[48px] bg-white p-[48px] flex gap-[16px] justify-left items-center shadow-footer">
+        <div className={`z-2 w-[2000px] fixed bottom-[80px] left-0 right-0 mx-auto`}>
+                <div hidden={!isFooterOpen} className={`${isKeyboardOpen && "opacity-0 translate-y-[-700px]"} duration-500 transition w-full z-[-1] mt-[-160px] absolute h-[160px] flex duration-500 transition gap-[16px] ${!location.pathname.includes("map") && "translate-y-[200px] opacity-0"}`}>
+                <div 
+                    onClick={() => {
+                        setKeyboardOpen(true);
+                        setMapsSelectionOpen(false);
+                        setTimeout(()=>setFooterOpen(false), 500)
+                    }}
+                    className="transition duration-300 active:bg-[#e6ebe8] w-[1152px] h-full rounded-[48px] bg-white p-[48px] flex gap-[16px] justify-left items-center shadow-footer">
                     <img src={searchIcon} alt="search" className="size-[64px]" />
-                    <input id="searchInput" className="focus:outline-none w-[976px] h-[48px] text-text text-[48px] font-normal leading-[100%]" placeholder="Поиск"/>
+                    <div className="focus:outline-none w-[976px] h-[48px] text-text text-[48px] font-normal leading-[100%]">Поиск </div>
                 </div>
-                <button className="size-[160px] p-[48px] bg-white rounded-[48px] shadow-footer">
+                <button className="transition duration-300 active:bg-[#e6ebe8] size-[160px] p-[48px] bg-white rounded-[48px] shadow-footer">
                     <img src={filterIcon} alt="filter" className="size-[64px]" />
                 </button>
                 <button 
                     onClick={() => setMapsSelectionOpen(prev => !prev)}
-                    className="active:bg-[#e6ebe8] w-[656px] h-full rounded-[48px] bg-white shadow-footer flex justify-center items-center gap-[16px]">
+                    className="transition duration-300 active:bg-[#e6ebe8] w-[656px] h-full rounded-[48px] bg-white shadow-footer flex justify-center items-center gap-[16px]">
                     <div className="w-[480px] text-light-green text-[48px] text-left font-semibold leading-[100%]">
                         {currMap}
                     </div>
                     <img src={arrIcon} alt="img" className={`${isMapsSelectionOpen && "-rotate-180"} duration-300 transition size-[64px]`} />
                 </button>
-                <div hidden={!isMapsSelectionOpen} className={`absolute bottom-[424px] right-0 w-[656px] rounded-[72px] bg-white shadow-footer p-[24px]`}>
+                <div hidden={!isMapsSelectionOpen} className={`absolute bottom-[184px] right-0 w-[656px] rounded-[72px] bg-white shadow-footer p-[24px]`}>
                     {mapVars.map((mapVar, index:number)=>(
                         <div key={index} onClick={() => setCurrMap(mapVar)} className={`${mapVar === currMap ? "bg-light-green text-white" : "text-text-second"} w-[608px] h-[160px] rounded-[48px] flex items-center p-[48px] text-[48px] font-semibold leading-[100%]`}>
                             {mapVar}
@@ -45,8 +57,7 @@ export default function Footer({setBlindMode, blindMode}: Props){
                     ))}
                 </div>
             </div>
-            }
-            <div className="mt-[40px] w-full h-[208px] bg-white rounded-[72px] shadow-footer flex gap-[16px] items-center justify-center">
+            <div hidden={!isFooterOpen} className={` ${isKeyboardOpen && "opacity-0"} duration-500 transition z-10 mt-[40px] w-full h-[208px] bg-white rounded-[72px] shadow-footer flex gap-[16px] items-center justify-center`}>
                 <button 
                     onClick={() => navigate("/map")}
                     className={`${location.pathname.includes("map") ? "bg-dark-green text-white" : "bg-[#71BF451A] text-text-second"} w-[824px] h-[160px] rounded-[48px] flex justify-center items-center gap-[16px] transition duration-300 text-[48px] font-semibold leading-[100%]`}>
@@ -70,7 +81,29 @@ export default function Footer({setBlindMode, blindMode}: Props){
                         </div>
                 </button>
             </div>
+            <div className={`w-[2000px] h-[896px] bg-light-green transition duration-500 absolute ${isKeyboardOpen ? "translate-y-[-898px]" : "translate-y-[80px]"}`}>
+                <div className="w-[2000px] h-[160px] bg-white">
+                    <input
+                        onChange={handleChange}
+                        value={text}
+                        autoComplete="off"
+                        id="searchInput"
+                        className="w-[1424px] h-[20px] text-text text-[20px] font-normal leading-[100%] focus:outline-none"
+                        />
 
+                </div>
+                <Keyboard opened={isKeyboardOpen && isKeyboardOpen}
+                    enterButton={(button: string) => {
+                    setText((prev) => prev + button);
+                    }}
+                    onClose={() => {
+                        setKeyboardOpen(false);
+                        setFooterOpen(true);
+                    }}
+                    onBackspace={() => {
+                    setText((prev) => prev.slice(0, -1));
+                    }}/>
+            </div>
         </div>
     )
 }

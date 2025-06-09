@@ -1,6 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/images/Vector.svg"
-import Info from "../comps/Info";
 
 export default function News() {
     const navigate = useNavigate();
@@ -28,7 +26,7 @@ export default function News() {
         },
     ];
     return(
-        <div className="z-1 w-full h-full fixed top-0 left-0 p-[80px]">
+        <div className="animate-fade-in z-1 w-full h-full fixed top-0 left-0 p-[80px]">
             <div className="w-[2000px] h-[220px] flex justify-between items-center text-light-green text-[120px] font-bold leading-[100%]">
                     Новости и события
             </div>
@@ -61,7 +59,6 @@ export default function News() {
                 ))}
                 </div>
             </div>
-            <Info/>
         </div>
     )
 }

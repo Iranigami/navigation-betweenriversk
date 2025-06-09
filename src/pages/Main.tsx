@@ -12,8 +12,8 @@ export default function Main({onWaiting, onClicked}: Props){
     const[keepOpen, setKeepOpen] = useState(true);
     return(
         <div hidden={!keepOpen} className="fixed z-2 top-0 w-[2160px] h-[3840px]">
-            <div className={`absolute w-full h-full bg-white z-[-1] duration-700 transition ${!onWaiting && "translate-y-[-4200px] opacity-0 scale-[120%]"}`}>
-                {/*вставить картинки*/}
+            <div className={`absolute w-full h-full bg-white z-[-1] duration-700 transition ${!onWaiting && "translate-y-[-4200px] opacity-0 scale-[150%]"}`}>
+                <img src="https://img.geliophoto.com/mzhdr/00_mzhdr.jpg" alt="img" className="object-cover w-full h-full" />
             </div>
             <button 
                 onClick={()=>{

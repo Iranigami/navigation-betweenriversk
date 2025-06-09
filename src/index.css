@@ -7,6 +7,15 @@
   --color-dark-green: #04341C;
   --shadow-footer: 0px 2px 20px 0px #4A290940;
   --font-monty: Montserrat;
+  --animate-fade-in: fade-in ease-in-out 0.3s;
+  @keyframes fade-in{
+    0% {
+      opacity: 0%
+    },
+    100% {
+      opacity: 100%
+    }
+  }
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -30,12 +39,29 @@ body {
   font-family: Montserrat;
 }
 
+strong {
+  font-size: 56px
+}
 
-
+.outlined-text {
+  color: #505050; /* Цвет текста */
+  -webkit-text-stroke: 4px #FFFFFF; /* Толщина и цвет обводки */
+}
 
 @layer base {
   @font-face {
     font-family: Montserrat;
     src: url(./assets/fonts/Montserrat-VariableFont_wght.ttf);
   }
+}
+
+.hide-scroll {
+  scroll-behavior: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
