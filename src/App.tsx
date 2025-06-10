@@ -75,10 +75,11 @@ export default function App() {
   const [mapData, setMapData] = useState<MapPoint[]>([]);
   const [newsData, setNewsData] = useState<NewsArticle[]>([]);
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
-  return (
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+  return ( 
     <div className="z-0 fixed">
         <Router>
-        <Footer onFilterClick={()=>setFilterModalOpen(true)} blindMode={blindMode} setBlindMode={(bool)=>setBlindMode(bool)}/>
+        <Footer filters={selectedFilters.length} onFilterClick={()=>setFilterModalOpen(true)} blindMode={blindMode} setBlindMode={(bool)=>setBlindMode(bool)}/>
         <Routes>
           <Route path="*" element={<Navigate to="/map" />} />
           <Route path="/map" element={<Map mapdata={mapData} isBlindModeOn={blindMode} setInfoModalOpen={() => setInfoModalOpen(true)}/>} />
@@ -91,6 +92,8 @@ export default function App() {
           onClose={() => {
                 setInfoModalOpen(false);}}/>}
         {isFilterModalOpen && <Filters
+          selectedFilters={selectedFilters}
+          onSetFiltered={(filters) => setSelectedFilters(filters)}
           onClose={() => {
                 setFilterModalOpen(false);}}/>}
       </Router>

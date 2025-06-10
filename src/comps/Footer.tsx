@@ -12,10 +12,11 @@ type Props = {
     setBlindMode: (bool: boolean) => void;
     blindMode: boolean;
     onFilterClick: () => void;
+    filters: number;
 }
 
 
-export default function Footer({setBlindMode, blindMode, onFilterClick}: Props){
+export default function Footer({setBlindMode, blindMode, onFilterClick, filters}: Props){
     const mapVars = ["Междуреченск", "Мегалиты горной шории", "Поднебесные зубья"];
     const [currMap, setCurrMap] = useState(mapVars[0]);
     const [text, setText] = useState("");
@@ -42,6 +43,9 @@ export default function Footer({setBlindMode, blindMode, onFilterClick}: Props){
                 <button 
                     onClick={onFilterClick}
                     className="transition duration-300 active:bg-[#e6ebe8] size-[160px] p-[48px] bg-white rounded-[48px] shadow-footer">
+                    <div hidden={filters===0} className="absolute mt-[-62px] ml-[-56px] text-white text-[30px] font-bold leading-[100%] size-[64px] rounded-full bg-light-green flex justify-center items-center">
+                        {filters}
+                    </div>
                     <img src={filterIcon} alt="filter" className="size-[64px]" />
                 </button>
                 <button 
