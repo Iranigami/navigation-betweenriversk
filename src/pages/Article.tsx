@@ -1,6 +1,5 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import arrIcon from "../assets/icons/arrow.svg"
-import { useEffect } from "react";
 import type { NewsArticle } from "../types";
 
 type Props = {

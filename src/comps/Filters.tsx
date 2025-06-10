@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import checkIconActive from "../assets/icons/check-active.svg"
 import checkIconInactive from "../assets/icons/check-inactive.svg"
 
@@ -8,9 +7,7 @@ type Props = {
 }
 
 export default function Filters({onClose}: Props){
-    const apiUrl = import.meta.env.VITE_API_URL;
     const [keepOpen, setKeepOpen] = useState(false);
-    const [params] = useSearchParams();
     const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
     const filters = [
         "Гостиницы и отели",

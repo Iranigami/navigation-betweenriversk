@@ -16,6 +16,19 @@
       opacity: 100%
     }
   }
+
+  @keyframes zoom-and-fade{
+    0% {
+      opacity: 100%
+    },
+    50% {
+      scale: 150%
+    }
+    100% {
+      scale: 100%
+      opacity: 100%
+    }
+  }
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
