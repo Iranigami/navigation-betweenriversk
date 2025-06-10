@@ -11,10 +11,11 @@ import Keyboard from "./Keyboard"
 type Props = {
     setBlindMode: (bool: boolean) => void;
     blindMode: boolean;
+    onFilterClick: () => void;
 }
 
 
-export default function Footer({setBlindMode, blindMode}: Props){
+export default function Footer({setBlindMode, blindMode, onFilterClick}: Props){
     const mapVars = ["Междуреченск", "Мегалиты горной шории", "Поднебесные зубья"];
     const [currMap, setCurrMap] = useState(mapVars[0]);
     const [text, setText] = useState("");
@@ -27,7 +28,7 @@ export default function Footer({setBlindMode, blindMode}: Props){
     const navigate = useNavigate();
     return(
         <div className={`z-2 w-[2000px] fixed bottom-[80px] left-0 right-0 mx-auto`}>
-                <div hidden={!isFooterOpen} className={`${isKeyboardOpen && "opacity-0 translate-y-[-700px]"} duration-500 transition w-full z-[-1] mt-[-160px] absolute h-[160px] flex duration-500 transition gap-[16px] ${!location.pathname.includes("map") && "translate-y-[200px] opacity-0"}`}>
+                <div hidden={!isFooterOpen} className={`${isKeyboardOpen && "opacity-0 translate-y-[-500px]"} duration-500 transition w-full z-[-1] mt-[-160px] absolute h-[160px] flex duration-500 transition gap-[16px] ${!location.pathname.includes("map") && "translate-y-[200px] opacity-0"}`}>
                 <div 
                     onClick={() => {
                         setKeyboardOpen(true);
@@ -38,7 +39,9 @@ export default function Footer({setBlindMode, blindMode}: Props){
                     <img src={searchIcon} alt="search" className="size-[64px]" />
                     <div className="focus:outline-none w-[976px] h-[48px] text-text text-[48px] font-normal leading-[100%]">Поиск </div>
                 </div>
-                <button className="transition duration-300 active:bg-[#e6ebe8] size-[160px] p-[48px] bg-white rounded-[48px] shadow-footer">
+                <button 
+                    onClick={onFilterClick}
+                    className="transition duration-300 active:bg-[#e6ebe8] size-[160px] p-[48px] bg-white rounded-[48px] shadow-footer">
                     <img src={filterIcon} alt="filter" className="size-[64px]" />
                 </button>
                 <button 
@@ -81,24 +84,24 @@ export default function Footer({setBlindMode, blindMode}: Props){
                         </div>
                 </button>
             </div>
-            <div className={`w-[2000px] h-[896px] bg-light-green transition duration-500 absolute ${isKeyboardOpen ? "translate-y-[-898px]" : "translate-y-[80px]"}`}>
-                <div className="w-[2000px] h-[160px] bg-white">
+            <div className={`w-[2000px] h-[896px] transition duration-500 absolute ${isKeyboardOpen ? "translate-y-[-898px]" : "opacity-0 translate-y-[80px]"}`}>
+                <div className="w-[2000px] h-[160px] bg-white rounded-[48px] border-[4px] border-light-green shadow-footer mb-[40px] flex p-[48px] gap-[16px] justify-left items-center">
+                    <img src={searchIcon} alt="search" className="size-[64px]" />
                     <input
                         onChange={handleChange}
                         value={text}
                         autoComplete="off"
                         id="searchInput"
-                        className="w-[1424px] h-[20px] text-text text-[20px] font-normal leading-[100%] focus:outline-none"
+                        className="w-[1744px] h-[48px] text-text text-[48px] font-normal leading-[100%] focus:outline-none"
                         />
-
                 </div>
-                <Keyboard opened={isKeyboardOpen && isKeyboardOpen}
+                <Keyboard
                     enterButton={(button: string) => {
                     setText((prev) => prev + button);
                     }}
                     onClose={() => {
-                        setKeyboardOpen(false);
                         setFooterOpen(true);
+                        setTimeout(()=>setKeyboardOpen(false), 0)
                     }}
                     onBackspace={() => {
                     setText((prev) => prev.slice(0, -1));

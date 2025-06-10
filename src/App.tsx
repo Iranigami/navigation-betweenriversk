@@ -2,40 +2,97 @@ import { Navigate, Route, BrowserRouter as Router, Routes } from "react-router-d
 import logo from "./assets/images/Vector.svg"
 import Main from "./pages/Main";
 import Footer from "./comps/Footer";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import News from "./pages/News";
 import Map from "./pages/Map"
 import Info from "./comps/Info";
 import Article from "./pages/Article";
+import axios from "axios";
+import type { NewsArticle, MapPoint } from "./types";
+import Filters from "./comps/Filters";
 
 export default function App() {
+  const saveJwtToCookie = (token:string) => {
+    document.cookie = `jwt=${token}; path=/`;
+  };
+
+  const readJwtFromCookie = () => {
+    const cookieValue = document.cookie.match('(^|;) ?jwt=([^;]*)(;|$)');
+    return cookieValue ? cookieValue[2] : null;
+  };
+
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const getData = (jwtToken:string|null) => {
+    axios.get(apiUrl + "api/map_objects", {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,}
+    })
+      .then(response => {
+        setMapData(response.data);
+      })
+      .catch(() => {
+        console.error('Ошибка получения информации');
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+        location.reload();
+      });
+      axios.get(apiUrl + "api/events", {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,}
+      })
+        .then(response => {
+          setNewsData(response.data);
+        })
+        .catch(() => {
+          console.error('Ошибка получения информации');
+          document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/';
+          location.reload();
+        });
+    }
+
+  useEffect(() => {
+    const jwtToken = readJwtFromCookie();
+    if (jwtToken) {
+      getData(jwtToken);
+    } else {
+          axios.post(apiUrl + "api/authentication_token", {
+            "username": 'admin',
+            "password": 'foo',
+          })
+            .then((response) => {
+              const newJwtToken = response.data.token;
+              saveJwtToCookie(newJwtToken);
+              getData(newJwtToken);
+            })
+            .catch((error) => {
+              console.error('Ошибка авторизации:', error);
+            });
+    }
+  }, [])
+
   const [blindMode, setBlindMode] = useState(false);
   const [isOnWaiting, setOnWaiting] = useState(true);
   const [isInfoModalOpen, setInfoModalOpen] = useState(false);
-  const testdata = {
-    title: "Test Modal",
-    image: "https://avatars.mds.yandex.net/i?id=3840ee8bc871c7712aa09cf7a1b0e29c_l-5858967-images-thumbs&n=27&h=480&w=480",
-    phone: "+7 000 000 00 00",
-    address: "ул. Пушкина, дом 3",
-    workingHours: "Будни: 10:00-22:00",
-    mail: "test@ex.ru",
-    info: "<strong>Lorem ipsum</strong> dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-}
+  const [mapData, setMapData] = useState<MapPoint[]>([]);
+  const [newsData, setNewsData] = useState<NewsArticle[]>([]);
+  const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   return (
     <div className="z-0 fixed">
         <Router>
-        <Footer blindMode={blindMode} setBlindMode={(bool)=>setBlindMode(bool)}/>
+        <Footer onFilterClick={()=>setFilterModalOpen(true)} blindMode={blindMode} setBlindMode={(bool)=>setBlindMode(bool)}/>
         <Routes>
           <Route path="*" element={<Navigate to="/map" />} />
-          <Route path="/map" element={<Map isBlindModeOn={blindMode} setInfoModalOpen={() => setInfoModalOpen(true)}/>} />
-          <Route path="/news" element={<News />} />
-          <Route path="/newsarticle" element={<Article />} />
+          <Route path="/map" element={<Map mapdata={mapData} isBlindModeOn={blindMode} setInfoModalOpen={() => setInfoModalOpen(true)}/>} />
+          <Route path="/news" element={<News news={newsData}/>} />
+          <Route path="/newsarticle" element={<Article news={newsData}/>} />
         </Routes>
         <Main onWaiting={isOnWaiting} onClicked={() => setOnWaiting(false)}/>
         <img src={logo} alt="logo" className={`fixed origin-top-right left-0 right-0 mx-auto w-[657px] h-[647px] mt-[80px] delay-600 duration-800 transition ${!isOnWaiting && "translate-x-[671px] scale-[34%]"} z-2`} />
-        {isInfoModalOpen && <Info data={testdata} 
+        {isInfoModalOpen && <Info data={mapData} 
           onClose={() => {
                 setInfoModalOpen(false);}}/>}
+        {isFilterModalOpen && <Filters
+          onClose={() => {
+                setFilterModalOpen(false);}}/>}
       </Router>
     </div>
   )
