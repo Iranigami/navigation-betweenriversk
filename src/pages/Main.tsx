@@ -1,4 +1,5 @@
 
+import { useNavigate } from "react-router-dom";
 import pickIcon from "../assets/icons/pick.svg"
 import { useState } from "react";
 
@@ -10,6 +11,7 @@ type Props = {
 
 export default function Main({onWaiting, onClicked}: Props){
     const[keepOpen, setKeepOpen] = useState(true);
+    const navigate = useNavigate();
     return(
         <div hidden={!keepOpen} className="fixed z-2 top-0 w-[2160px] h-[3840px]">
             <div className={`absolute w-full h-full bg-white z-[-1] duration-700 transition ${!onWaiting && "translate-y-[-4200px] opacity-0 scale-[150%]"}`}>
@@ -17,6 +19,7 @@ export default function Main({onWaiting, onClicked}: Props){
             </div>
             <button 
                 onClick={()=>{
+                    navigate("/map")
                     onClicked();
                     setTimeout(()=>setKeepOpen(false), 1500)
                 }}

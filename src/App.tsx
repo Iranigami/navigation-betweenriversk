@@ -10,6 +10,7 @@ import Article from "./pages/Article";
 import axios from "axios";
 import type { NewsArticle, MapPoint } from "./types";
 import Filters from "./comps/Filters";
+import Waiting from "./comps/Waiting";
 
 export default function App() {
   const saveJwtToCookie = (token:string) => {
@@ -96,6 +97,7 @@ export default function App() {
           onSetFiltered={(filters) => setSelectedFilters(filters)}
           onClose={() => {
                 setFilterModalOpen(false);}}/>}
+        {!isOnWaiting && <Waiting/>}
       </Router>
     </div>
   )
