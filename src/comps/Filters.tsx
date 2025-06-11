@@ -14,8 +14,6 @@ export default function Filters({onClose, onSetFiltered, selectedFilters}: Props
     const filters = [
         "Гостиницы и отели",
         "Рестораны и места общения",
-        "Тропы",
-        "Маршруты",
         "Достопримечательности",
         "Проекты"
     ]
@@ -34,7 +32,7 @@ export default function Filters({onClose, onSetFiltered, selectedFilters}: Props
                   Сбросить
                 </button>
                 </div>
-                <div className="mt-[24px] w-[1904px] h-[1080px]">
+                <div className="mt-[24px] w-[1904px]">
                     {filters.map((filter, index:number) => (
                         <div 
                         onClick={() => {
