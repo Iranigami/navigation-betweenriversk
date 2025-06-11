@@ -8,52 +8,44 @@ type Props = {
   onBackspace: () => void;
 };
 
-export default function Keyboard({
-  enterButton,
-  onClose,
-  onBackspace,
-}: Props) {
+export default function Keyboard({ enterButton, onClose, onBackspace }: Props) {
   const [uppercase, setUppercase] = useState(0);
   return (
-    <div
-      className={`left-0 right-0 z-10 font-medium`}
-    >
+    <div className={`left-0 right-0 z-10 font-medium`}>
       <div
         className={`mx-auto w-[2000px] h-[528px] rounded-[72px] shadow-footer bg-white text-text justify-center items-center text-center p-[48px] font-normal`}
       >
         <div className="flex gap-[16px] justify-center items-center text-center">
-          {
-            ["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ"].map(
-              (text: string, index: number) => (
-                <Key
-                  key={index}
-                  text={uppercase ? text.toUpperCase() : text}
-                  type="symbol"
-                  className="w-[130px]"
-                  clickHandler={() => {
-                    enterButton(uppercase ? text.toUpperCase() : text);
-                    setUppercase(0);
-                  }}
-                />
-              ),
-            )}
+          {["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ"].map(
+            (text: string, index: number) => (
+              <Key
+                key={index}
+                text={uppercase ? text.toUpperCase() : text}
+                type="symbol"
+                className="w-[130px]"
+                clickHandler={() => {
+                  enterButton(uppercase ? text.toUpperCase() : text);
+                  setUppercase(0);
+                }}
+              />
+            ),
+          )}
         </div>
         <div className="flex gap-[16px] justify-center items-center text-center mt-[16px]">
-          {
-            ["ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э"].map(
-              (text: string, index: number) => (
-                <Key
-                  key={index}
-                  text={uppercase ? text.toUpperCase() : text}
-                  type="symbol"
-                  className="w-[130px]"
-                  clickHandler={() => {
-                    enterButton(uppercase ? text.toUpperCase() : text);
-                    if (uppercase !== 2) setUppercase(0);
-                  }}
-                />
-              ),
-            )}
+          {["ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э"].map(
+            (text: string, index: number) => (
+              <Key
+                key={index}
+                text={uppercase ? text.toUpperCase() : text}
+                type="symbol"
+                className="w-[130px]"
+                clickHandler={() => {
+                  enterButton(uppercase ? text.toUpperCase() : text);
+                  if (uppercase !== 2) setUppercase(0);
+                }}
+              />
+            ),
+          )}
         </div>
         <div className="flex gap-[16px] justify-center items-center text-center mt-[16px]">
           <Key
@@ -65,21 +57,20 @@ export default function Keyboard({
               setUppercase(uppercase !== 2 ? uppercase + 1 : 0)
             }
           />
-          {
-            ["я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "ё"].map(
-              (text: string, index: number) => (
-                <Key
-                  key={index}
-                  text={uppercase ? text.toUpperCase() : text}
-                  type="symbol"
-                  className="w-[130px]"
-                  clickHandler={() => {
-                    enterButton(uppercase ? text.toUpperCase() : text);
-                    if (uppercase !== 2) setUppercase(0);
-                  }}
-                />
-              ),
-            )}
+          {["я", "ч", "с", "м", "и", "т", "ь", "б", "ю", "ё"].map(
+            (text: string, index: number) => (
+              <Key
+                key={index}
+                text={uppercase ? text.toUpperCase() : text}
+                type="symbol"
+                className="w-[130px]"
+                clickHandler={() => {
+                  enterButton(uppercase ? text.toUpperCase() : text);
+                  if (uppercase !== 2) setUppercase(0);
+                }}
+              />
+            ),
+          )}
           <Key
             text={""}
             type="backspace"
