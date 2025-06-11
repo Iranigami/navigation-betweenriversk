@@ -35,6 +35,8 @@ export default function Main({onWaiting, onClicked}: Props){
                 {images.map((image, index: number) => (
                     <img key={index} src={image} alt="img" className={`object-cover w-full h-full absolute duration-1000 transition ${currentSlide === index ? "opacity-100" : "opacity-0"}`} />
                 ))}
+                <div className="absolute w-[2160px] h-[807px] opacity-70 bg-linear-to-b from-[#04341C] to-[#04341C00]"/>
+                <div className="absolute bottom-0 w-[2160px] h-[807px] opacity-70 bg-linear-to-t from-[#04341C] to-[#04341C00]"/>
             </div>
             <button 
                 onClick={()=>{
