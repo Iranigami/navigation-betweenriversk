@@ -69,8 +69,6 @@ export default function App() {
             });
     }
   }, [])
-
-  const [blindMode, setBlindMode] = useState(false);
   const [isOnWaiting, setOnWaiting] = useState(true);
   const [isInfoModalOpen, setInfoModalOpen] = useState(false);
   const [mapData, setMapData] = useState<MapPoint[]>([]);
@@ -80,10 +78,10 @@ export default function App() {
   return ( 
     <div className="z-0 fixed">
         <Router>
-        <Footer filters={selectedFilters.length} onFilterClick={()=>setFilterModalOpen(true)} blindMode={blindMode} setBlindMode={(bool)=>setBlindMode(bool)}/>
+        <Footer filters={selectedFilters.length}  onFilterClick={()=>setFilterModalOpen(true)}/>
         <Routes>
           <Route path="*" element={<Navigate to="/map" />} />
-          <Route path="/map" element={<Map mapdata={mapData} isBlindModeOn={blindMode} setInfoModalOpen={() => setInfoModalOpen(true)}/>} />
+          <Route path="/map" element={<Map mapdata={mapData} setInfoModalOpen={() => setInfoModalOpen(true)}/>} />
           <Route path="/news" element={<News news={newsData}/>} />
           <Route path="/newsarticle" element={<Article news={newsData}/>} />
         </Routes>

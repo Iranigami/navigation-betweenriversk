@@ -9,14 +9,13 @@ import { useNavigate } from "react-router-dom";
 import Keyboard from "./Keyboard"
 
 type Props = {
-    setBlindMode: (bool: boolean) => void;
-    blindMode: boolean;
     onFilterClick: () => void;
     filters: number;
 }
 
 
-export default function Footer({setBlindMode, blindMode, onFilterClick, filters}: Props){
+export default function Footer({onFilterClick, filters}: Props){
+    const [blindMode, setBlindMode] = useState(false);
     const mapVars = ["Междуреченск", "Мегалиты горной шории", "Поднебесные зубья"];
     const [currMap, setCurrMap] = useState(mapVars[0]);
     const [text, setText] = useState("");
@@ -80,7 +79,10 @@ export default function Footer({setBlindMode, blindMode, onFilterClick, filters}
                         Новости
                 </button>
                 <button 
-                    onClick={() => setBlindMode(!blindMode)}
+                    onClick={() => {
+                        setBlindMode(prev => !prev);
+                        document.documentElement.setAttribute('data-theme', blindMode ? 'blind' : 'normal');
+                    }}
                     className="w-[272px] h-[160px] bg-[#71BF451A] rounded-[48px] flex justify-center items-center gap-[24px]">
                         <img src={glassesIcon} alt="img" className="size-[64px]" />
                         <div className={`${blindMode ? "bg-[#71BF454D]" : "bg-text-second"} w-[88px] h-[48px] rounded-full p-[4px] transition duration-300`}>

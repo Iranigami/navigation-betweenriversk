@@ -30,7 +30,9 @@ export default function Main({onWaiting, onClicked}: Props){
         changeSlide();
     }, [])
     return(
-        <div hidden={!keepOpen} className="fixed z-2 top-0 w-[2160px] h-[3840px]">
+        <>
+        {keepOpen &&         
+        <div className="fixed z-2 top-0 w-[2160px] h-[3840px]">
             <div className={`absolute w-full h-full bg-white z-[-1] duration-700 transition ${!onWaiting && "translate-y-[-4200px] opacity-0 scale-[150%]"}`}>
                 {images.map((image, index: number) => (
                     <img key={index} src={image} alt="img" className={`object-cover w-full h-full absolute duration-1000 transition ${currentSlide === index ? "opacity-100" : "opacity-0"}`} />
@@ -50,7 +52,8 @@ export default function Main({onWaiting, onClicked}: Props){
                         Нажмите, чтобы начать
                     </div>
             </button>
-
         </div>
+}
+        </>
     )
 }
