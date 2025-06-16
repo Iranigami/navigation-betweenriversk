@@ -17,11 +17,11 @@ export default function Map({ setInfoModalOpen, mapdata }: Props) {
   return (
     <div
       id={"map"}
-      className="z-[-1] w-[2160px] h-[3840px] overflow-x-scroll fixed animate-fade-in hide-scroll"
+      className="z-[-1] bg-[#F6EBDB] w-[2160px] h-[3840px] overflow-x-scroll fixed animate-fade-in hide-scroll"
     >
       <div className="w-[12848px] h-[9636px]">
         <div className="w-[407px] h-[132px] absolute mt-[2770px] ml-[3800px]">
-          <div className="w-[407px] h-[112px] rounded-full justify-center items-center bg-light-green flex p-[24px] gap-[24px] text-white text-[48px] font-semibold leading-[100%]">
+          <div className="w-[407px] h-[112px] rounded-full justify-center items-center blind:bg-dark-green bg-light-green flex p-[24px] gap-[24px] text-white text-[48px] font-semibold leading-[100%]">
             <img src={hereIcon} alt="icon" className="size-[64px] mt-[-4px]" />
             Вы здесь
           </div>
@@ -41,7 +41,7 @@ export default function Map({ setInfoModalOpen, mapdata }: Props) {
             }}
             className={`w-[1000px] absolute flex gap-[24px] items-center`}
           >
-            <div className="size-[112px] bg-light-green rounded-full border-[4px] border-white p-[24px]">
+            <div className="size-[112px] blind:bg-dark-green bg-light-green rounded-full border-[4px] border-white p-[24px]">
               {" "}
               <img src={cupIcon} alt="map point" className="size-[64px]" />
             </div>

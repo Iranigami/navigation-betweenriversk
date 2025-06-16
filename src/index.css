@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@theme{
+@custom-variant blind (&:where([data-theme=blind], [data-theme=blind] *));
+
+  @theme{
   --color-text: #505050;
   --color-text-second: #A9A9A9;
   --color-light-green: #71BF45;
@@ -32,10 +34,9 @@
 }
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 1;
   font-weight: 400;
 
-  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #FDF8EF;
 
@@ -78,3 +79,4 @@ strong {
   width: 0;
   height: 0;
 }
+

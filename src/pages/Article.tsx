@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import arrIcon from "../assets/icons/arrow.svg";
 import type { NewsArticle } from "../types";
-
+import blindArrIcon from "../assets/icons/blindArr.svg";
 type Props = {
   news: NewsArticle;
 };
@@ -16,11 +16,20 @@ export default function Article({ news }: Props) {
         <div className="flex gap-[40px] items-center">
           <button
             onClick={() => navigate("/news")}
-            className="size-[160px] bg-white rounded-[48px] p-[48px]"
+            className="size-[160px] bg-white rounded-[48px] p-[48px] blind:border-[4px] blind:border-dark-green"
           >
-            <img src={arrIcon} alt="back" className="rotate-270 size-[64px]" />
+            <img
+              src={arrIcon}
+              alt="back"
+              className="rotate-270 size-[64px] blind:hidden"
+            />
+            <img
+              src={blindArrIcon}
+              alt="back"
+              className="size-[64px] hidden blind:inline"
+            />
           </button>
-          <div className="text-light-green text-[100px] leading-[100%] font-bold">
+          <div className="blind:text-dark-green text-light-green text-[100px] leading-[100%] font-bold">
             {testdata.name}
           </div>
         </div>
@@ -35,17 +44,17 @@ export default function Article({ news }: Props) {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="mt-[48px] text-text text-[56px] font-bold leading-[100%]">
+            <div className="blind:text-dark-green mt-[48px] text-text text-[56px] font-bold leading-[100%]">
               Время проведения
             </div>
-            <div className="mt-[24px] text-text-second text-[80px] font-semibold leading-[100%]">
+            <div className="blind:text-text mt-[24px] text-text-second text-[80px] font-semibold leading-[100%]">
               {testdata.date}
             </div>
-            <div className="mt-[48px] text-text text-[40px] font-normal leading-[100%]">
+            <div className="mt-[48px] blind:text-dark-green text-text text-[40px] font-normal leading-[100%]">
               {testdata.eventData.map((data, index: number) => (
                 <div
                   key={index}
-                  className="text-text text-[40px] font-normal leading-[100%] mb-[48px]"
+                  className="blind:text-dark-green text-text text-[40px] font-normal leading-[100%] mb-[48px]"
                 >
                   <div className="mb-[24px] text-[56px] font-bold">
                     {data.title}

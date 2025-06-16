@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Key from "./Key";
 import close from "../assets/icons/close.svg";
+import blindClose from "../assets/icons/blindCloseBig.svg";
 
 type Props = {
   enterButton: (letter: string) => void;
@@ -13,7 +14,7 @@ export default function Keyboard({ enterButton, onClose, onBackspace }: Props) {
   return (
     <div className={`left-0 right-0 z-10 font-medium`}>
       <div
-        className={`mx-auto w-[2000px] h-[528px] rounded-[72px] shadow-footer bg-white text-text justify-center items-center text-center p-[48px] font-normal`}
+        className={`mx-auto w-[2000px] h-[528px] rounded-[72px] shadow-footer bg-white text-text blind:text-dark-green justify-center items-center text-center p-[48px] font-normal`}
       >
         <div className="flex gap-[16px] justify-center items-center text-center">
           {["й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ"].map(
@@ -52,7 +53,7 @@ export default function Keyboard({ enterButton, onClose, onBackspace }: Props) {
             shift={uppercase}
             text=""
             type="shift"
-            className={`${!uppercase && "bg-light-green active:bg-light-green"} w-[208px]`}
+            className={`${!uppercase && "bg-light-green blind:bg-dark-green blind"} w-[208px]`}
             clickHandler={() =>
               setUppercase(uppercase !== 2 ? uppercase + 1 : 0)
             }
@@ -74,7 +75,7 @@ export default function Keyboard({ enterButton, onClose, onBackspace }: Props) {
           <Key
             text={""}
             type="backspace"
-            className="w-[206px] bg-light-green active:bg-light-green"
+            className="w-[206px] bg-light-green blind:bg-dark-green"
             clickHandler={() => {
               onBackspace();
             }}
@@ -96,7 +97,12 @@ export default function Keyboard({ enterButton, onClose, onBackspace }: Props) {
         onClick={onClose}
         className="shadow-footer mt-[40px] w-[192px] h-[128px] rounded-[48px] bg-white mx-auto flex justify-center items-center"
       >
-        <img src={close} alt="close" className="mx-auto" />
+        <img src={close} alt="close" className="mx-auto blind:hidden" />
+        <img
+          src={blindClose}
+          alt="close"
+          className="mx-auto absolute opacity-0 blind:opacity-100"
+        />
       </div>
     </div>
   );

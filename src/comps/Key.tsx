@@ -20,7 +20,7 @@ export default function Key({
 }: Props) {
   return (
     <button
-      className={`h-[96px] flex justify-center items-center text-center rounded-[16px] text-[36px] bg-[#71BF451A] ${className} active:bg-[#04341C26] shadow-[0px_2px_0px_0px_#0B461B4D]`}
+      className={`h-[96px] flex justify-center items-center text-center rounded-[16px] text-[36px] bg-[#71BF451A] blind:bg-[#71BF450D] ${className} active:bg-[#04341C26] shadow-[0px_2px_0px_0px_#0B461B4D]`}
       onClick={clickHandler}
     >
       {text}

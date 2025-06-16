@@ -3,11 +3,13 @@ import filterIcon from "../assets/icons/filter.svg";
 import arrIcon from "../assets/icons/arrow.svg";
 import activeMapIcon from "../assets/icons/greenMap.svg";
 import mapIcon from "../assets/icons/map.svg";
-import closeIcon from "../assets/icons/icon 65.svg"
+import closeIcon from "../assets/icons/icon 65.svg";
+import blindCloseIcon from "../assets/icons/blindClose.svg";
 import glassesIcon from "../assets/icons/glasses.svg";
 import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Keyboard from "./Keyboard";
+import blindMap from "../assets/icons/icon 65 (1).svg";
 
 type Props = {
   onFilterClick: () => void;
@@ -48,7 +50,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
           className="transition duration-300 active:bg-[#e6ebe8] w-[1152px] h-full rounded-[48px] bg-white p-[48px] flex gap-[16px] justify-left items-center shadow-footer"
         >
           <img src={searchIcon} alt="search" className="size-[64px]" />
-          <div className="focus:outline-none w-[976px] h-[48px] text-text text-[48px] font-normal leading-[100%]">
+          <div className="focus:outline-none w-[976px] h-[48px] text-text blind:text-dark-green blind:font-semibold text-[48px] font-normal leading-[100%]">
             Поиск
           </div>
         </div>
@@ -68,7 +70,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
           onClick={() => setMapsSelectionOpen((prev) => !prev)}
           className="transition duration-300 active:bg-[#e6ebe8] w-[656px] h-full rounded-[48px] bg-white shadow-footer flex justify-center items-center gap-[16px]"
         >
-          <div className="w-[480px] text-light-green text-[48px] text-left font-semibold leading-[100%]">
+          <div className="w-[480px] text-light-green text-[48px] text-left blind:text-dark-green font-semibold leading-[100%]">
             {currMap}
           </div>
           <img
@@ -84,7 +86,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
             <div
               key={index}
               onClick={() => setCurrMap(mapVar)}
-              className={`${mapVar === currMap ? "bg-light-green text-white" : "text-text-second"} w-[608px] h-[160px] rounded-[48px] flex items-center p-[48px] text-[48px] font-semibold leading-[100%]`}
+              className={`${mapVar === currMap ? "bg-light-green text-white blind:bg-dark-green" : "text-text-second blind:text-dark-green"} w-[608px] h-[160px] rounded-[48px] flex items-center p-[48px] text-[48px] font-semibold leading-[100%]`}
             >
               {mapVar}
             </div>
@@ -97,7 +99,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
       >
         <button
           onClick={() => navigate("/map")}
-          className={`${location.pathname.includes("map") ? "bg-dark-green text-white" : "bg-[#71BF451A] text-text-second"} w-[824px] h-[160px] rounded-[48px] flex justify-center items-center gap-[16px] transition duration-300 text-[48px] font-semibold leading-[100%]`}
+          className={`${location.pathname.includes("map") ? "bg-dark-green text-white" : "bg-[#71BF451A] text-text-second blind:bg-white blind:text-dark-green"} w-[824px] h-[160px] rounded-[48px] flex justify-center items-center gap-[16px] transition duration-300 text-[48px] font-semibold leading-[100%]`}
         >
           <img
             hidden={location.pathname.includes("map")}
@@ -106,8 +108,14 @@ export default function Footer({ onFilterClick, filters }: Props) {
             className="size-[64px]"
           />
           <img
-            hidden={!location.pathname.includes("map")}
+            hidden={!location.pathname.includes("map") || blindMode}
             src={activeMapIcon}
+            alt="map"
+            className="size-[64px]"
+          />
+          <img
+            hidden={!location.pathname.includes("map") || !blindMode}
+            src={blindMap}
             alt="map"
             className="size-[64px]"
           />
@@ -115,7 +123,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
         </button>
         <button
           onClick={() => navigate("/news")}
-          className={`${location.pathname.includes("news") ? "bg-dark-green text-white" : "bg-[#71BF451A] text-text-second"} w-[824px] h-[160px] rounded-[48px] flex justify-center items-center gap-[16px] transition duration-300 text-[48px] font-semibold leading-[100%]`}
+          className={`${location.pathname.includes("news") ? "bg-dark-green text-white" : "bg-[#71BF451A] text-text-second  blind:bg-white blind:text-dark-green"} w-[824px] h-[160px] rounded-[48px] flex justify-center items-center gap-[16px] transition duration-300 text-[48px] font-semibold leading-[100%]`}
         >
           <img
             hidden={location.pathname.includes("news")}
@@ -124,8 +132,14 @@ export default function Footer({ onFilterClick, filters }: Props) {
             className="size-[64px]"
           />
           <img
-            hidden={!location.pathname.includes("news")}
+            hidden={!location.pathname.includes("news") || blindMode}
             src={activeMapIcon}
+            alt="map"
+            className="size-[64px]"
+          />
+          <img
+            hidden={location.pathname.includes("map") || !blindMode}
+            src={blindMap}
             alt="map"
             className="size-[64px]"
           />
@@ -133,13 +147,13 @@ export default function Footer({ onFilterClick, filters }: Props) {
         </button>
         <button
           onClick={() => {
-            setBlindMode((prev) => !prev);
             document.documentElement.setAttribute(
               "data-theme",
-              blindMode ? "blind" : "normal",
+              blindMode ? "normal" : "blind",
             );
+            setBlindMode((prev) => !prev);
           }}
-          className="w-[272px] h-[160px] bg-[#71BF451A] rounded-[48px] flex justify-center items-center gap-[24px]"
+          className="w-[272px] h-[160px] bg-[#71BF451A] blind:bg-white rounded-[48px] flex justify-center items-center gap-[24px]"
         >
           <img src={glassesIcon} alt="img" className="size-[64px]" />
           <div
@@ -154,19 +168,35 @@ export default function Footer({ onFilterClick, filters }: Props) {
       <div
         className={`w-[2000px] h-[896px] transition duration-500 absolute ${isKeyboardOpen ? "translate-y-[-898px]" : "opacity-0 translate-y-[80px]"}`}
       >
-        <div className="w-[2000px] h-[160px] bg-white rounded-[48px] border-[4px] border-light-green shadow-footer mb-[40px] flex p-[48px] gap-[16px] justify-center items-center">
+        <div className="w-[2000px] h-[160px] bg-white rounded-[48px] border-[4px] border-light-green blind:border-dark-green shadow-footer mb-[40px] flex p-[48px] gap-[16px] justify-center items-center">
           <img src={searchIcon} alt="search" className="size-[64px]" />
-            <input
-              onChange={handleChange}
-              value={text}
-              autoComplete="off"
-              id="searchInput"
-              className="w-[1744px] h-[48px] text-text text-[48px] font-normal leading-[100%] focus:outline-none"
-            />
-            <img onClick={()=>{
+          <input
+            onChange={handleChange}
+            value={text}
+            autoComplete="off"
+            id="searchInput"
+            className="w-[1744px] h-[48px] text-text text-[48px] font-normal leading-[100%] focus:outline-none"
+          />
+          <img
+            hidden={blindMode}
+            onClick={() => {
               setFooterOpen(true);
               setTimeout(() => setKeyboardOpen(false), 0);
-            }} src={closeIcon} alt="close" className="" />
+            }}
+            src={closeIcon}
+            alt="close"
+            className=""
+          />
+          <img
+            hidden={!blindMode}
+            onClick={() => {
+              setFooterOpen(true);
+              setTimeout(() => setKeyboardOpen(false), 0);
+            }}
+            src={blindCloseIcon}
+            alt="close"
+            className=""
+          />
         </div>
         <Keyboard
           enterButton={(button: string) => {

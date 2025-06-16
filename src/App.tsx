@@ -61,6 +61,7 @@ export default function App() {
   };
 
   useEffect(() => {
+    document.documentElement.setAttribute("data-theme", "normal");
     const jwtToken = readJwtFromCookie();
     if (jwtToken) {
       getData(jwtToken);
@@ -103,16 +104,28 @@ export default function App() {
             element={
               <Map
                 mapdata={mapData}
-                setInfoModalOpen={(index) => 
-                  {point.current = index;
-                  setInfoModalOpen(true)}}
+                setInfoModalOpen={(index) => {
+                  point.current = index;
+                  setInfoModalOpen(true);
+                }}
               />
             }
           />
-          <Route path="/news" element={<News news={newsData} setArticle={(index) => {
-            article.current = index
-          }}/>} />
-          <Route path="/newsarticle" element={<Article news={newsData[article.current]} />} />
+          <Route
+            path="/news"
+            element={
+              <News
+                news={newsData}
+                setArticle={(index) => {
+                  article.current = index;
+                }}
+              />
+            }
+          />
+          <Route
+            path="/newsarticle"
+            element={<Article news={newsData[article.current]} />}
+          />
         </Routes>
         <Main onWaiting={isOnWaiting} onClicked={() => setOnWaiting(false)} />
         <img
