@@ -11,7 +11,6 @@ type Props = {
 
 
 export default function QrModal({ data, onClose }: Props) {
-  const [isLoading, setLoading] = useState(true);
   const readJwtFromCookie = () => {
     const cookieValue = document.cookie.match("(^|;) ?jwt=([^;]*)(;|$)");
     return cookieValue ? cookieValue[2] : null;
@@ -31,11 +30,9 @@ export default function QrModal({ data, onClose }: Props) {
     })
     .then((response) => {
       document.getElementById("qrWrapper")!.innerHTML = response.data;
-      setLoading(false);
     })
     .catch(() => {
       console.error("Ошибка получения информации");
-      setLoading(false);
       onClose();
     });
 

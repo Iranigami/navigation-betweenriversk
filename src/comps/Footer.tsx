@@ -24,6 +24,7 @@ export default function Footer({ onFilterClick, filters }: Props) {
     "Поднебесные зубья",
   ];
   const [currMap, setCurrMap] = useState(mapVars[0]);
+  //@ts-ignore
   const [isSearchOn, setSearchOn] = useState(false);
   const [text, setText] = useState("");
   const [isKeyboardOpen, setKeyboardOpen] = useState(false);
