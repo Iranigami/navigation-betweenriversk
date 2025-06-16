@@ -9,6 +9,7 @@ export interface MapPoint {
   email: string;
   openingHours: string;
   image: string;
+  objectType: string;
 }
 
 export interface NewsArticle {

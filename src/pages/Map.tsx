@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import cupIcon from "../assets/icons/Tea Cup.svg";
+import museumIcon from "../assets/icons/museum.svg";
+import ticketIcon from "../assets/icons/ticket.svg";
+import hotelIcon from "../assets/icons/bed.svg";
 import hereIcon from "../assets/icons/People Nearby.svg";
 import polygon from "../assets/images/Polygon 1.svg";
 import map from "../assets/images/Map (1).svg";
@@ -13,6 +16,7 @@ type Props = {
 export default function Map({ setInfoModalOpen, mapdata }: Props) {
   useEffect(() => {
     document.getElementById("map")?.scrollTo(3000, 1000);
+    
   }, []);
   return (
     <div
@@ -27,7 +31,6 @@ export default function Map({ setInfoModalOpen, mapdata }: Props) {
           </div>
           <img src={polygon} alt="img" className="w-[24px] h-[20px] mx-auto" />
         </div>
-        <div className="absolute size-[100px] bg-black mt-[9536px] ml-[12748px]" />
         {mapdata.map((mappoint, index: number) => (
           <div
             key={index}
@@ -36,14 +39,17 @@ export default function Map({ setInfoModalOpen, mapdata }: Props) {
               setInfoModalOpen(index);
             }}
             style={{
-              marginTop: (mappoint.coordinates[0] - 53.718959) * -132001 + "px",
-              marginLeft: (mappoint.coordinates[1] - 87.985242) * 79889 + "px",
+              marginTop: (mappoint.coordinates[0] - 53.718959) * -139082 + "px",
+              marginLeft: (mappoint.coordinates[1] - 87.985242) * 82889 + "px",
             }}
             className={`w-[1000px] absolute flex gap-[24px] items-center`}
           >
             <div className="size-[112px] blind:bg-dark-green bg-light-green rounded-full border-[4px] border-white p-[24px]">
-              {" "}
-              <img src={cupIcon} alt="map point" className="size-[64px]" />
+              <img src={cupIcon}    hidden={mappoint.objectType!="restaurant and social gathering"} alt="map point" className="size-[64px]" />
+              <img src={ticketIcon} hidden={mappoint.objectType!="sight"} alt="map point" className="size-[64px]" />
+              <img src={museumIcon} hidden={mappoint.objectType!="project"} alt="map point" className="size-[64px]" />
+              <img src={hotelIcon}  hidden={mappoint.objectType!="hotel"} alt="map point" className="size-[64px]" />
+
             </div>
             <span className="text-text text-[48px] font-semibold leading-[100%] outlined-text">
               {mappoint.name}
