@@ -12,11 +12,12 @@ import Keyboard from "./Keyboard";
 import blindMap from "../assets/icons/icon 65 (1).svg";
 
 type Props = {
+  onChangeMap: (mapIndex: number) => void;
   onFilterClick: () => void;
   filters: number;
 };
 
-export default function Footer({ onFilterClick, filters }: Props) {
+export default function Footer({ onFilterClick, filters, onChangeMap }: Props) {
   const [blindMode, setBlindMode] = useState(false);
   const mapVars = [
     "Междуреченск",
@@ -86,7 +87,11 @@ export default function Footer({ onFilterClick, filters }: Props) {
           {mapVars.map((mapVar, index: number) => (
             <div
               key={index}
-              onClick={() => setCurrMap(mapVar)}
+              onClick={() => {
+                setCurrMap(mapVar);
+                onChangeMap(index);
+                setMapsSelectionOpen(false);
+              }}
               className={`${mapVar === currMap ? "bg-light-green text-white blind:bg-dark-green" : "text-text-second blind:text-dark-green"} w-[608px] h-[160px] rounded-[48px] flex items-center p-[48px] text-[48px] font-semibold leading-[100%]`}
             >
               {mapVar}

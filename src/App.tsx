@@ -39,11 +39,9 @@ export default function App() {
       },
     })
     .then((response) => {
-      console.log(response.data);
       setMapData(response.data.results);
     })
     .catch((e) => {
-      console.log(e)
       console.error("Ошибка получения информации, попробуйте обновить страницу");
       document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       //location.reload();
@@ -111,12 +109,14 @@ export default function App() {
   const [isFilterModalOpen, setFilterModalOpen] = useState(false);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
   const [isQrModalOpen, setQrModalOpen] = useState(false);
+  const [currentMap, setCurrentMap] = useState(0);
   const point = useRef(0);
   const article = useRef(0);
   return (
     <div className="z-0 fixed">
       <Router>
         <Footer
+          onChangeMap={(mapIndex) => setCurrentMap(mapIndex)}
           filters={selectedFilters.length}
           onFilterClick={() => setFilterModalOpen(true)}
         />
@@ -126,6 +126,7 @@ export default function App() {
             path="/map"
             element={
               <Map
+                currentMap={currentMap}
                 mapdata={mapData}
                 setInfoModalOpen={(index) => {
                   point.current = index;
