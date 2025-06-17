@@ -46,8 +46,8 @@ export default function Map({ setInfoModalOpen, mapdata }: Props) {
           >
             <div className="size-[112px] blind:bg-dark-green bg-light-green rounded-full border-[4px] border-white p-[24px]">
               <img src={cupIcon}    hidden={mappoint.objectType!="restaurant and social gathering"} alt="map point" className="size-[64px]" />
-              <img src={ticketIcon} hidden={mappoint.objectType!="sight"} alt="map point" className="size-[64px]" />
-              <img src={museumIcon} hidden={mappoint.objectType!="project"} alt="map point" className="size-[64px]" />
+              <img src={museumIcon} hidden={mappoint.objectType!="sight"} alt="map point" className="size-[64px]" />
+              <img src={ticketIcon} hidden={mappoint.objectType!="project"} alt="map point" className="size-[64px]" />
               <img src={hotelIcon}  hidden={mappoint.objectType!="hotel"} alt="map point" className="size-[64px]" />
 
             </div>

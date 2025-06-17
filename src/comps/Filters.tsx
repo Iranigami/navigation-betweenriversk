@@ -4,12 +4,14 @@ import checkIconInactive from "../assets/icons/check-inactive.svg";
 import blindCheck from "../assets/icons/checkBlind.svg";
 
 type Props = {
+  onReset: () => void;
   onClose: () => void;
   onSetFiltered: (filters: string[]) => void;
   selectedFilters: string[];
 };
 
 export default function Filters({
+  onReset,
   onClose,
   onSetFiltered,
   selectedFilters,
@@ -32,7 +34,7 @@ export default function Filters({
           Фильтры
           <button
             onClick={() => {
-              onSetFiltered([]);
+              onReset();
               setKeepOpen(true);
               setTimeout(onClose, 300);
             }}

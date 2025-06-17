@@ -27,22 +27,46 @@ export default function App() {
     const cookieValue = document.cookie.match("(^|;) ?jwt=([^;]*)(;|$)");
     return cookieValue ? cookieValue[2] : null;
   };
+  const jwtToken = readJwtFromCookie();
+  const getFiltered = (jwtToken: string | null, filters: string[]) => {
+    const stringFilters: string = `?hotel=${filters.includes('Гостиницы и отели')}&restaurant=${filters.includes('Рестораны и места общения')}&sight=${filters.includes('Достопримечательности')}&project=${filters.includes('Проекты')}`;
+    console.log(filters);
+    console.log(stringFilters)
+     axios
+    .get(apiUrl + `api/filtered` + stringFilters, {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+    .then((response) => {
+      console.log(response.data);
+      setMapData(response.data.results);
+    })
+    .catch((e) => {
+      console.log(e)
+      console.error("Ошибка получения информации, попробуйте обновить страницу");
+      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      //location.reload();
+    }); 
+  }
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const getData = (jwtToken: string | null) => {
     axios
-      .get(apiUrl + "api/map_objects", {
+      .get(apiUrl + "api/filtered", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((response) => {
+        console.log(response.data);
         setMapData(response.data);
       })
-      .catch(() => {
-        console.error("Ошибка получения информации");
+      .catch((e) => {
+        console.log(e)
+        console.error("Ошибка получения информации, попробуйте обновить страницу");
         document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-        location.reload();
+        //location.reload();
       });
     axios
       .get(apiUrl + "api/events", {
@@ -62,7 +86,6 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", "normal");
-    const jwtToken = readJwtFromCookie();
     if (jwtToken) {
       getData(jwtToken);
     } else {
@@ -146,8 +169,14 @@ export default function App() {
         )}
         {isFilterModalOpen && (
           <Filters
+            onReset={() => {
+              getData(jwtToken);
+            }}
             selectedFilters={selectedFilters}
-            onSetFiltered={(filters) => setSelectedFilters(filters)}
+            onSetFiltered={(filters) => {
+              setSelectedFilters(filters);
+              getFiltered(jwtToken, filters);
+            }}
             onClose={() => {
               setFilterModalOpen(false);
             }}
