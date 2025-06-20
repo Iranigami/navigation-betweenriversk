@@ -5,7 +5,12 @@ export interface MapPoint {
   description: string;
   phone: string;
   address: string;
-  coordinates: [number, number];
+  coordinates: {
+    latitude: number,
+    longitude: number,
+    x: number,
+    y: number,
+  };
   email: string;
   openingHours: string;
   image: string;

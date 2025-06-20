@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import pickIcon from "../assets/icons/pick.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 type Props = {
   onWaiting: boolean;
@@ -8,40 +9,43 @@ type Props = {
 };
 
 export default function Main({ onWaiting, onClicked }: Props) {
-  const media = [
-    {
-      source: "https://dovosp.ru/wp-content/uploads/2022/03/zastavka-1.jpg",
-      type: "image",
-    },
-    {
-      source: "https://img.geliophoto.com/mzhdr/00_mzhdr.jpg",
-      type: "image",
-    },
-    {
-      source: "https://indieview.ru/wp-content/uploads/2023/08/01-2-gorod-mezhdurechensk-1024x683.jpg",
-      type: "image",
-    },
-    {
-      source: "https://avatars.mds.yandex.net/i?id=367392952aa527ea02e7b250ea7d2895_l-5252264-images-thumbs&n=13",
-      type: "image",
-    },
-    {
-      source: "https://cdn-front.freepik.com/videos/media/cover-v2-3.webm",
-      type: "video",
-    },
-  ];
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const [media, setMedia] = useState<{source: string, type: string}[]>([]);
+  const mediaLength = useRef(0);
+  const readJwtFromCookie = () => {
+    const cookieValue = document.cookie.match("(^|;) ?jwt=([^;]*)(;|$)");
+    return cookieValue ? cookieValue[2] : null;
+  };
+  const jwtToken = readJwtFromCookie();
+  useEffect(()=>{
+    changeSlide();
+    axios
+    .get(apiUrl + 'api/main_windows', {
+      headers: {
+        Authorization: `Bearer ${jwtToken}`,
+      },
+    })
+    .then((response) => {
+      setMedia(response.data);
+      mediaLength.current = response.data.length;
+    })
+    .catch(() => {
+      console.error("Ошибка получения информации, попробуйте обновить страницу");
+      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+      //location.reload();
+    }); 
+  },[])
+
   const [keepOpen, setKeepOpen] = useState(true);
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const changeSlide = () => {
+    console.log("settled for " + mediaLength.current)
     setTimeout(() => {
-      setCurrentSlide((prev) => (prev < media.length - 1 ? prev + 1 : 0));
+      setCurrentSlide((prev) => (prev < mediaLength.current - 1 ? prev + 1 : 0));
       changeSlide();
     }, 15000);
   };
-  useEffect(() => {
-    changeSlide();
-  }, []);
   return (
     <>
       {keepOpen && (
@@ -49,22 +53,22 @@ export default function Main({ onWaiting, onClicked }: Props) {
           <div
             className={`absolute w-full h-full bg-white z-[-1] duration-700 transition ${!onWaiting && "translate-y-[-4200px] opacity-0 scale-[150%]"}`}
           >
-            {media.map((file, index: number) => (
+            {!!media && media.map((file, index: number) => (
               <div
               key={index}>
               {
                 file.type==="image" && <img
-                src={file.source}
+                src={apiUrl + file.source}
                 alt="img"
                 className={`object-cover w-full h-full absolute duration-1000 transition ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
               />
               }
               {
                 file.type==="video" && <video
-                controls loop
+                loop
                 muted
                 autoPlay
-                src={file.source}
+                src={apiUrl + file.source}
                 className={`object-cover w-full h-full absolute duration-1000 transition ${currentSlide === index ? "opacity-100" : "opacity-0"}`}
               />
               }

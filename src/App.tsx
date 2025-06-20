@@ -30,10 +30,8 @@ export default function App() {
   const jwtToken = readJwtFromCookie();
   const getFiltered = (jwtToken: string | null, filters: string[]) => {
     const stringFilters: string = `?hotel=${filters.includes('Гостиницы и отели')}&restaurant=${filters.includes('Рестораны и места общения')}&sight=${filters.includes('Достопримечательности')}&project=${filters.includes('Проекты')}`;
-    console.log(filters);
-    console.log(stringFilters)
      axios
-    .get(apiUrl + `api/filtered` + stringFilters, {
+    .get(apiUrl + `api/map_objects` + stringFilters, {
       headers: {
         Authorization: `Bearer ${jwtToken}`,
       },
@@ -41,7 +39,7 @@ export default function App() {
     .then((response) => {
       setMapData(response.data.results);
     })
-    .catch((e) => {
+    .catch(() => {
       console.error("Ошибка получения информации, попробуйте обновить страницу");
       document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
       //location.reload();
@@ -51,13 +49,12 @@ export default function App() {
   const apiUrl = import.meta.env.VITE_API_URL;
   const getData = (jwtToken: string | null) => {
     axios
-      .get(apiUrl + "api/filtered", {
+      .get(apiUrl + "api/map_objects", {
         headers: {
           Authorization: `Bearer ${jwtToken}`,
         },
       })
       .then((response) => {
-        console.log(response.data);
         setMapData(response.data);
       })
       .catch((e) => {

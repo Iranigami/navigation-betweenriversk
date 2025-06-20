@@ -44,11 +44,12 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
             key={index}
             onClick={() => {
               //53.718959, 87.985242 - tl     53.649676, 88.140244 - br
-              setInfoModalOpen(index);
+              console.log((mappoint.coordinates.x + 1)*9.4 + "px")
+              //setInfoModalOpen(index);
             }}
             style={{
-              marginTop: (mappoint.coordinates[0] - 53.718959) * -139082 + "px",
-              marginLeft: (mappoint.coordinates[1] - 87.985242) * 82889 + "px",
+              marginTop: (Number(mappoint.coordinates.y) + 1)*9.4 + "px",
+              marginLeft: (Number(mappoint.coordinates.x) + 0.6)*9.4 + "px",
             }}
             className={`w-[1000px] absolute flex gap-[24px] items-center`}
           >
@@ -94,8 +95,8 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
               setInfoModalOpen(index);
             }}
             style={{
-              marginTop: (mappoint.coordinates[0] - 53.718959) * -139082 + "px",
-              marginLeft: (mappoint.coordinates[1] - 87.985242) * 82889 + "px",
+              marginTop:  "px",
+              marginLeft: "px",
             }}
             className={`w-[1000px] absolute flex gap-[24px] items-center`}
           >
@@ -141,8 +142,8 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
               setInfoModalOpen(index);
             }}
             style={{
-              marginTop: (mappoint.coordinates[0] - 53.718959) * -139082 + "px",
-              marginLeft: (mappoint.coordinates[1] - 87.985242) * 82889 + "px",
+              marginTop:  "px",
+              marginLeft: "px",
             }}
             className={`w-[1000px] absolute flex gap-[24px] items-center`}
           >
