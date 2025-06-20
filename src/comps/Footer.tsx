@@ -6,18 +6,32 @@ import mapIcon from "../assets/icons/map.svg";
 import closeIcon from "../assets/icons/icon 65.svg";
 import blindCloseIcon from "../assets/icons/blindClose.svg";
 import glassesIcon from "../assets/icons/glasses.svg";
+import cupIcon from "../assets/icons/Tea Cup copy.svg";
+import museumIcon from "../assets/icons/museum copy.svg";
+import ticketIcon from "../assets/icons/ticket copy.svg";
+import hotelIcon from "../assets/icons/bed copy.svg";
 import { useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Keyboard from "./Keyboard";
 import blindMap from "../assets/icons/icon 65 (1).svg";
+import type { MapPoint } from "../types";
 
 type Props = {
+  mapData?: MapPoint[];
+  onSearch: (search: string) => void;
   onChangeMap: (mapIndex: number) => void;
   onFilterClick: () => void;
+  onClickPoint: (id: number) => void;
   filters: number;
 };
 
-export default function Footer({ onFilterClick, filters, onChangeMap }: Props) {
+export default function Footer({
+  onFilterClick,
+  filters,
+  onChangeMap,
+  mapData,
+  onClickPoint,
+}: Props) {
   const [blindMode, setBlindMode] = useState(false);
   const mapVars = [
     "Междуреченск",
@@ -171,6 +185,45 @@ export default function Footer({ onFilterClick, filters, onChangeMap }: Props) {
           </div>
         </button>
       </div>
+      {text && (
+        <div className="pl-[48px] w-[2000px] p-[24px] rounded-[72px] shadow-footer bg-white absolute bottom-[936px]">
+          {mapData?.map((mappoint, index: number) => (
+            <div
+              onClick={() => onClickPoint(index)}
+              key={index}
+              className="w-[1952px] items-center justify-left h-[160px] flex gap-[16px] text-text-second text-[48px] font-semibold leading-[100%]"
+            >
+              <img
+                src={cupIcon}
+                hidden={
+                  mappoint.objectType != "restaurant and social gathering"
+                }
+                alt="map point"
+                className="size-[64px]"
+              />
+              <img
+                src={museumIcon}
+                hidden={mappoint.objectType != "sight"}
+                alt="map point"
+                className="size-[64px]"
+              />
+              <img
+                src={ticketIcon}
+                hidden={mappoint.objectType != "project"}
+                alt="map point"
+                className="size-[64px]"
+              />
+              <img
+                src={hotelIcon}
+                hidden={mappoint.objectType != "hotel"}
+                alt="map point"
+                className="size-[64px]"
+              />
+              {mappoint.name}
+            </div>
+          ))}
+        </div>
+      )}
       <div
         className={`w-[2000px] h-[896px] transition duration-500 absolute ${isKeyboardOpen ? "translate-y-[-898px]" : "opacity-0 translate-y-[80px]"}`}
       >
@@ -210,6 +263,7 @@ export default function Footer({ onFilterClick, filters, onChangeMap }: Props) {
           }}
           onClose={() => {
             setFooterOpen(true);
+            setText("");
             setTimeout(() => setKeyboardOpen(false), 0);
           }}
           onBackspace={() => {

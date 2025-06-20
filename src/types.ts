@@ -6,10 +6,10 @@ export interface MapPoint {
   phone: string;
   address: string;
   coordinates: {
-    latitude: number,
-    longitude: number,
-    x: number,
-    y: number,
+    latitude: number;
+    longitude: number;
+    x: number;
+    y: number;
   };
   email: string;
   openingHours: string;

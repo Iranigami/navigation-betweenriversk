@@ -29,22 +29,24 @@ export default function App() {
   };
   const jwtToken = readJwtFromCookie();
   const getFiltered = (jwtToken: string | null, filters: string[]) => {
-    const stringFilters: string = `?hotel=${filters.includes('Гостиницы и отели')}&restaurant=${filters.includes('Рестораны и места общения')}&sight=${filters.includes('Достопримечательности')}&project=${filters.includes('Проекты')}`;
-     axios
-    .get(apiUrl + `api/map_objects` + stringFilters, {
-      headers: {
-        Authorization: `Bearer ${jwtToken}`,
-      },
-    })
-    .then((response) => {
-      setMapData(response.data.results);
-    })
-    .catch(() => {
-      console.error("Ошибка получения информации, попробуйте обновить страницу");
-      document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
-      //location.reload();
-    }); 
-  }
+    const stringFilters: string = `?hotel=${filters.includes("Гостиницы и отели")}&restaurant=${filters.includes("Рестораны и места общения")}&sight=${filters.includes("Достопримечательности")}&project=${filters.includes("Проекты")}`;
+    axios
+      .get(apiUrl + `api/map_objects` + stringFilters, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        setMapData(response.data.results);
+      })
+      .catch(() => {
+        console.error(
+          "Ошибка получения информации, попробуйте обновить страницу",
+        );
+        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+        //location.reload();
+      });
+  };
 
   const apiUrl = import.meta.env.VITE_API_URL;
   const getData = (jwtToken: string | null) => {
@@ -58,8 +60,10 @@ export default function App() {
         setMapData(response.data);
       })
       .catch((e) => {
-        console.log(e)
-        console.error("Ошибка получения информации, попробуйте обновить страницу");
+        console.log(e);
+        console.error(
+          "Ошибка получения информации, попробуйте обновить страницу",
+        );
         document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
         //location.reload();
       });
@@ -113,6 +117,14 @@ export default function App() {
     <div className="z-0 fixed">
       <Router>
         <Footer
+          onClickPoint={(index) => {
+            point.current = index;
+            setInfoModalOpen(true);
+          }}
+          mapData={mapData}
+          onSearch={(search) => {
+            console.log(search);
+          }}
           onChangeMap={(mapIndex) => setCurrentMap(mapIndex)}
           filters={selectedFilters.length}
           onFilterClick={() => setFilterModalOpen(true)}
