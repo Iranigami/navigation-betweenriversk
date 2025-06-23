@@ -10,7 +10,7 @@ import cupIcon from "../assets/icons/Tea Cup copy.svg";
 import museumIcon from "../assets/icons/museum copy.svg";
 import ticketIcon from "../assets/icons/ticket copy.svg";
 import hotelIcon from "../assets/icons/bed copy.svg";
-import { useState, type ChangeEvent } from "react";
+import { useRef, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Keyboard from "./Keyboard";
 import blindMap from "../assets/icons/icon 65 (1).svg";
@@ -31,6 +31,7 @@ export default function Footer({
   onChangeMap,
   mapData,
   onClickPoint,
+  onSearch
 }: Props) {
   const [blindMode, setBlindMode] = useState(false);
   const mapVars = [
@@ -38,15 +39,25 @@ export default function Footer({
     "Мегалиты горной шории",
     "Поднебесные зубья",
   ];
+
+
   const [currMap, setCurrMap] = useState(mapVars[0]);
-  //@ts-ignore
-  const [isSearchOn, setSearchOn] = useState(false);
+  const queryTimeout = useRef<any>(null);
+  const getSearchResults = () => {
+    clearTimeout(queryTimeout.current);
+    queryTimeout.current = setTimeout(async () => {
+      onSearch(searchQuery.current);
+    }, 500);
+  };
   const [text, setText] = useState("");
+  const searchQuery = useRef("");
   const [isKeyboardOpen, setKeyboardOpen] = useState(false);
   const [isFooterOpen, setFooterOpen] = useState(true);
   const [isMapsSelectionOpen, setMapsSelectionOpen] = useState(false);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
+    searchQuery.current = event.target.value;
+    getSearchResults();
   };
   const navigate = useNavigate();
   return (
@@ -186,7 +197,7 @@ export default function Footer({
         </button>
       </div>
       {text && (
-        <div className="pl-[48px] w-[2000px] p-[24px] rounded-[72px] shadow-footer bg-white absolute bottom-[936px]">
+        <div className="pl-[48px] w-[2000px] max-h-[528px] overflow-y-scroll overflow-x-hidden p-[24px] rounded-[72px] shadow-footer bg-white absolute bottom-[936px]">
           {mapData?.map((mappoint, index: number) => (
             <div
               onClick={() => onClickPoint(index)}
@@ -239,8 +250,11 @@ export default function Footer({
           <img
             hidden={blindMode}
             onClick={() => {
-              setFooterOpen(true);
-              setTimeout(() => setKeyboardOpen(false), 0);
+              if (text !== "") {
+              setText("");
+              searchQuery.current = "";
+              onSearch("");
+              }
             }}
             src={closeIcon}
             alt="close"
@@ -249,8 +263,11 @@ export default function Footer({
           <img
             hidden={!blindMode}
             onClick={() => {
-              setFooterOpen(true);
-              setTimeout(() => setKeyboardOpen(false), 0);
+              if (text !== "") {
+                setText("");
+                searchQuery.current = "";
+                onSearch("");
+                }
             }}
             src={blindCloseIcon}
             alt="close"
@@ -260,14 +277,22 @@ export default function Footer({
         <Keyboard
           enterButton={(button: string) => {
             setText((prev) => prev + button);
+            searchQuery.current = searchQuery.current + button;
+            getSearchResults();
           }}
           onClose={() => {
             setFooterOpen(true);
-            setText("");
+            if (text !== "") {
+              setText("");
+              searchQuery.current = "";
+              onSearch("");
+              }
             setTimeout(() => setKeyboardOpen(false), 0);
           }}
           onBackspace={() => {
             setText((prev) => prev.slice(0, -1));
+            searchQuery.current = searchQuery.current.slice(0, -1);
+            getSearchResults();
           }}
         />
       </div>

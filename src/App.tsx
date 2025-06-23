@@ -47,7 +47,24 @@ export default function App() {
         //location.reload();
       });
   };
-
+  const getSearch = (jwtToken: string | null, search: string) => {
+    axios
+      .get(apiUrl + `api/map_objects?name=${search}`, {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((response) => {
+        setMapData(response.data.results);
+      })
+      .catch(() => {
+        console.error(
+          "Ошибка получения информации, попробуйте обновить страницу",
+        );
+        document.cookie = "jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+        //location.reload();
+      });
+  };
   const apiUrl = import.meta.env.VITE_API_URL;
   const getData = (jwtToken: string | null) => {
     axios
@@ -103,6 +120,7 @@ export default function App() {
         });
     }
   }, []);
+
   const [isOnWaiting, setOnWaiting] = useState(true);
   const [isInfoModalOpen, setInfoModalOpen] = useState(false);
   const [mapData, setMapData] = useState<MapPoint[]>([]);
@@ -123,7 +141,10 @@ export default function App() {
           }}
           mapData={mapData}
           onSearch={(search) => {
-            console.log(search);
+            if(search==="")
+              getData(jwtToken);
+            else
+              getSearch(jwtToken, search);
           }}
           onChangeMap={(mapIndex) => setCurrentMap(mapIndex)}
           filters={selectedFilters.length}
@@ -181,6 +202,7 @@ export default function App() {
           <Filters
             onReset={() => {
               getData(jwtToken);
+              setSelectedFilters([]);
             }}
             selectedFilters={selectedFilters}
             onSetFiltered={(filters) => {
