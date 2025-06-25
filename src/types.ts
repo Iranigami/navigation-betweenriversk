@@ -15,6 +15,7 @@ export interface MapPoint {
   openingHours: string;
   image: string;
   objectType: string;
+  mapType: string;
 }
 
 export interface NewsArticle {
