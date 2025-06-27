@@ -6,9 +6,9 @@ import hotelIcon from "../assets/icons/bed.svg";
 import hereIcon from "../assets/icons/People Nearby.svg";
 import polygon from "../assets/images/Polygon 1.svg";
 import map from "../assets/images/Map (1).svg";
-import tempMap from "../assets/images/ae9600c2a311cf2d12d49d6f6a8d13250affe9f5.png";
 import type { MapPoint } from "../types";
-import parkMap from "../assets/images/park.jpg"
+import parkMap from "../assets/images/shoriaMap.jpg"
+import zubiaMap from "../assets/images/zubiaMap.jpg"
 
 type Props = {
   setInfoModalOpen: (point: number) => void;
@@ -17,7 +17,6 @@ type Props = {
 };
 
 export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
-  const tempMapData: MapPoint[] = [];
 
   useEffect(() => {
     document.getElementById("map")?.scrollTo(3000, 1000);
@@ -110,25 +109,10 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
         className="z-[-1] bg-[#798f2a] w-[2160px] h-[3840px] overflow-x-scroll overflow-y-hidden  fixed animate-fade-in hide-scroll"
       >
         <div className="w-[6827px] h-[3840px]">
-          <div className="w-[407px] h-[132px] absolute mt-[2770px] ml-[3800px]">
-            <div className="w-[407px] h-[112px] rounded-full justify-center items-center blind:bg-dark-green bg-light-green flex p-[24px] gap-[24px] text-white text-[48px] font-semibold leading-[100%]">
-              <img
-                src={hereIcon}
-                alt="icon"
-                className="size-[64px] mt-[-4px]"
-              />
-              Вы здесь
-            </div>
-            <img
-              src={polygon}
-              alt="img"
-              className="w-[24px] h-[20px] mx-auto"
-            />
-          </div>
           {mapdata.map((mappoint, index: number) => (
             <div
               key={index}
-              hidden={mappoint.mapType!=="park"}
+              hidden={mappoint.mapType!=="shoria_mountains"}
               onClick={() => {
                 setInfoModalOpen(index);
               }}
@@ -184,80 +168,66 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
       )}
       {currentMap === 2 && (
         <div
-          id={"map2"}
-          className="z-[-1] bg-[#F6EBDB] w-[2160px] h-[3840px] overflow-hidden fixed animate-fade-in hide-scroll"
-        >
-          <div className="w-[3666px] h-[2852px] mt-[300px] ml-[-600px]">
-            <div className="w-[407px] h-[132px] absolute mt-[700px] ml-[1000px]">
-              <div className="w-[407px] h-[112px] rounded-full justify-center items-center blind:bg-dark-green bg-light-green flex p-[24px] gap-[24px] text-white text-[48px] font-semibold leading-[100%]">
+        id={"map3"}
+        className="z-[-1] bg-[#798f2a] w-[2160px] h-[3840px] overflow-x-scroll overflow-y-hidden  fixed animate-fade-in hide-scroll"
+      >
+        <div className="w-[6827px] h-[3840px]">
+          {mapdata.map((mappoint, index: number) => (
+            <div
+              key={index}
+              hidden={mappoint.mapType!=="zybia_mountains"}
+              onClick={() => {
+                setInfoModalOpen(index);
+              }}
+              style={{
+                marginTop: Number(mappoint.coordinates.y) - 50 + "px",
+                marginLeft: Number(mappoint.coordinates.x) - 50 + "px",
+              }}
+              className={`absolute flex gap-[24px] items-center`}
+            >
+              <div className="size-[112px] blind:bg-dark-green bg-light-green rounded-full border-[4px] border-white p-[24px]">
                 <img
-                  src={hereIcon}
-                  alt="icon"
-                  className="size-[64px] mt-[-4px]"
+                  src={cupIcon}
+                  hidden={
+                    mappoint.objectType != "restaurant and social gathering"
+                  }
+                  alt="map point"
+                  className="size-[64px]"
                 />
-                Вы здесь
+                <img
+                  src={museumIcon}
+                  hidden={mappoint.objectType != "sight"}
+                  alt="map point"
+                  className="size-[64px]"
+                />
+                <img
+                  src={ticketIcon}
+                  hidden={mappoint.objectType != "project"}
+                  alt="map point"
+                  className="size-[64px]"
+                />
+                <img
+                  src={hotelIcon}
+                  hidden={mappoint.objectType != "hotel"}
+                  alt="map point"
+                  className="size-[64px]"
+                />
               </div>
-              <img
-                src={polygon}
-                alt="img"
-                className="w-[24px] h-[20px] mx-auto"
-              />
+              <span className="text-text text-[48px] font-semibold leading-[100%] absolute ml-[136px] outlined-text">
+                {mappoint.name}
+              </span>
+              <div className="text-text text-[48px] font-semibold leading-[100%] absolute ml-[136px]">
+                {mappoint.name}
+              </div>
             </div>
-            {tempMapData.map((mappoint, index: number) => (
-              <div
-                key={index}
-                onClick={() => {
-                  setInfoModalOpen(index);
-                }}
-                style={{
-                  marginTop: "px",
-                  marginLeft: "px",
-                }}
-                className={`w-[1000px] absolute flex gap-[24px] items-center`}
-              >
-                <div className="size-[112px] blind:bg-dark-green bg-light-green rounded-full border-[4px] border-white p-[24px]">
-                  <img
-                    src={cupIcon}
-                    hidden={
-                      mappoint.objectType != "restaurant and social gathering"
-                    }
-                    alt="map point"
-                    className="size-[64px]"
-                  />
-                  <img
-                    src={museumIcon}
-                    hidden={mappoint.objectType != "sight"}
-                    alt="map point"
-                    className="size-[64px]"
-                  />
-                  <img
-                    src={ticketIcon}
-                    hidden={mappoint.objectType != "project"}
-                    alt="map point"
-                    className="size-[64px]"
-                  />
-                  <img
-                    src={hotelIcon}
-                    hidden={mappoint.objectType != "hotel"}
-                    alt="map point"
-                    className="size-[64px]"
-                  />
-                </div>
-                <span className="text-text text-[48px] font-semibold leading-[100%] outlined-text">
-                  {mappoint.name}
-                </span>
-                <div className="text-text text-[48px] font-semibold leading-[100%] absolute ml-[136px]">
-                  {mappoint.name}
-                </div>
-              </div>
-            ))}
-            <img
-              src={tempMap}
-              alt="map"
-              className={`w-[3666px] h-[2852px] object-cover`}
-            />
-          </div>
+          ))}
+          <img
+            src={zubiaMap}
+            alt="map"
+            className={`w-[6827px] h-[3840px] object-cover`}
+          />
         </div>
+      </div>
       )}
     </>
   );
