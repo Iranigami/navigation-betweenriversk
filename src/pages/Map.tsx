@@ -8,7 +8,7 @@ import polygon from "../assets/images/Polygon 1.svg";
 import map from "../assets/images/Map (1).svg";
 import type { MapPoint } from "../types";
 import parkMap from "../assets/images/shoriaMap.jpg"
-import zubiaMap from "../assets/images/zubiaMap.jpg"
+import zubiaMap from "../assets/images/zubiaMap.png"
 
 type Props = {
   setInfoModalOpen: (point: number) => void;
@@ -50,7 +50,6 @@ export default function Map({ setInfoModalOpen, mapdata, currentMap }: Props) {
                 key={index}
                 hidden={mappoint.mapType!=="city"}
                 onClick={() => {
-                  //53.718959, 87.985242 - tl     53.649676, 88.140244 - br
                   setInfoModalOpen(index);
                 }}
                 style={{
