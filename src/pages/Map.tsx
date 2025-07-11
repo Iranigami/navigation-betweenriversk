@@ -7,7 +7,7 @@ import hereIcon from "../assets/icons/People Nearby.svg";
 import polygon from "../assets/images/Polygon 1.svg";
 import map from "../assets/images/Map (1).svg";
 import type { MapPoint } from "../types";
-import parkMap from "../assets/images/shoriaMap.jpg"
+import parkMap from "../assets/images/shoriaMap.png"
 import zubiaMap from "../assets/images/zubiaMap.png"
 
 type Props = {
